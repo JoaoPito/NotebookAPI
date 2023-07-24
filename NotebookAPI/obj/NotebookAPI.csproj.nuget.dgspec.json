@@ -1,0 +1,75 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/NotebookAPI.csproj": {}
+  },
+  "projects": {
+    "/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/NotebookAPI.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/NotebookAPI.csproj",
+        "projectName": "NotebookAPI",
+        "projectPath": "/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/NotebookAPI.csproj",
+        "packagesPath": "/home/joaopito/.nuget/packages/",
+        "outputPath": "/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/obj/",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "/home/joaopito/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "/home/joaopito/.dotnet/sdk/7.0.304/Sdks/Microsoft.NET.Sdk.Web/library-packs": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "Microsoft.AspNetCore.OpenApi": {
+              "target": "Package",
+              "version": "[7.0.7, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.5.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "/home/joaopito/.dotnet/sdk/7.0.304/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
