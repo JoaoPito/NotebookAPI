@@ -5,10 +5,9 @@ namespace NotebookAPI.Data;
 
 public class NoteContext : DbContext
 {
-    public NoteContext(DbContextOptions<NoteContext> opts) : base(opts)
+    public NoteContext(DbContextOptions opts) : base(opts)
     {
-        
-    }        
 
-    public DbSet<Note> Notes { get; set; };
+    }
+    public DbSet<Note> Notes { get; set; }
 }

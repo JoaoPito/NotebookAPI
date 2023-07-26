@@ -63,3 +63,9 @@
 /home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/runtimes/win-arm64/native/e_sqlite3.dll
 /home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/runtimes/win-x64/native/e_sqlite3.dll
 /home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/runtimes/win-x86/native/e_sqlite3.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Humanizer.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Design.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Mono.TextTemplating.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/System.CodeDom.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Relational.Design.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Sqlite.Design.dll

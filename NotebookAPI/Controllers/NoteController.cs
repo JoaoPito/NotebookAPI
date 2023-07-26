@@ -1,4 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using NotebookAPI.Data;
+using NotebookAPI.Data.DTOs;
 using NotebookAPI.Models;
 
 namespace NotebookAPI.Controllers
@@ -7,53 +10,64 @@ namespace NotebookAPI.Controllers
     [Route("[controller]")]
     public class NoteController : ControllerBase
     {
-        private static List<Note> notes = new();
+        private NoteContext _context;
+        private readonly IMapper _mapper;
 
-        public NoteController()
+        public NoteController(NoteContext context, IMapper mapper)
         {
-
+            _mapper = mapper;
+            _context = context;
         }
 
         [HttpPost]
-        public IActionResult AddNote([FromBody] Note note)
+        public async Task<IActionResult> AddNote([FromBody] CreateNoteDto noteDto)
         {
-            notes.Add(note);
+            var note = _mapper.Map<Note>(noteDto);
+            note.LastModified = DateTime.Now;
+            _context.Notes.Add(note);
+            await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetNote), new { Id= note.Id }, note);
         }
 
         [HttpGet]
         public IEnumerable<Note> GetNotes()
         {
-            return notes;
+            return _context.Notes;
         }
 
         [HttpGet("{id}")]
         public IActionResult GetNote(int id)
         {
-            var note = notes.FirstOrDefault(note => note.Id == id);
+            var note = _context.Notes.FirstOrDefault(note => note.Id == id);
             if (note == null)
                 return NotFound();
             return Ok(note);
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteNote(int id)
+        public async Task<IActionResult> DeleteNote(int id)
         {
-            var note = notes.FirstOrDefault(note => note.Id == id);
+            var note = _context.Notes.FirstOrDefault(note => note.Id == id);
             if(note == null) return NotFound();
 
-            notes.Remove(note);
+            _context.Notes.Remove(note);
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateNote(int id, [FromBody] Note note)
+        public async Task<IActionResult> UpdateNote(int id, [FromBody] Note note)
         {
-            var oldNote = notes.FirstOrDefault(note => note.Id == id);
+            var oldNote = _context.Notes.FirstOrDefault(note => note.Id == id);
             if (oldNote == null) return NotFound();
 
-            notes.Remove(oldNote);
-            notes.Add(note);
+            _context.Notes.Remove(oldNote);
+
+            note.LastModified = DateTime.Now;
+            _context.Notes.Add(note);
+            await _context.SaveChangesAsync();
+
             return NoContent();
         }
 

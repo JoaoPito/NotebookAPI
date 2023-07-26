@@ -1,18 +1,10 @@
-using System.ComponentModel.DataAnnotations;
-
-namespace NotebookAPI.Models
+namespace NotebookAPI.Data.DTOs
 {
-    public class Note
+    public class ReadNoteDto
     {
-        [Required]
-        [Key]
         public int Id { get; set; }
-        [Required]
         public string? Title { get; set; }
-        [Required]
         public DateTime LastModified { get; set; }
-        [Required]
         public string? Directory { get; set; }
-
     }
 }
