@@ -69,3 +69,5 @@
 /home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/System.CodeDom.dll
 /home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Relational.Design.dll
 /home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Sqlite.Design.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/AutoMapper.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll

@@ -30,9 +30,10 @@ namespace NotebookAPI.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Note> GetNotes()
+        public IEnumerable<ReadNoteDto> GetNotes()
         {
-            return _context.Notes;
+            var notesListDto = _mapper.Map<List<ReadNoteDto>>(_context.Notes);
+            return notesListDto;
         }
 
         [HttpGet("{id}")]
@@ -41,7 +42,9 @@ namespace NotebookAPI.Controllers
             var note = _context.Notes.FirstOrDefault(note => note.Id == id);
             if (note == null)
                 return NotFound();
-            return Ok(note);
+
+            var noteDto = _mapper.Map<ReadNoteDto>(note);
+            return Ok(noteDto);
         }
 
         [HttpDelete("{id}")]
@@ -57,15 +60,13 @@ namespace NotebookAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateNote(int id, [FromBody] Note note)
+        public async Task<IActionResult> UpdateNote(int id, [FromBody] UpdateNoteDto noteDto)
         {
-            var oldNote = _context.Notes.FirstOrDefault(note => note.Id == id);
-            if (oldNote == null) return NotFound();
+            var note = _context.Notes.FirstOrDefault(note => note.Id == id);
+            if (note == null) return NotFound();
 
-            _context.Notes.Remove(oldNote);
-
+            _mapper.Map(noteDto, note);
             note.LastModified = DateTime.Now;
-            _context.Notes.Add(note);
             await _context.SaveChangesAsync();
 
             return NoContent();
