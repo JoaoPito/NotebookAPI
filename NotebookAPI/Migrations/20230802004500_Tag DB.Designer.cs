@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NotebookAPI.Data;
 
@@ -10,9 +11,11 @@ using NotebookAPI.Data;
 namespace NotebookAPI.Migrations
 {
     [DbContext(typeof(NoteContext))]
-    partial class NoteContextModelSnapshot : ModelSnapshot
+    [Migration("20230802004500_Tag DB")]
+    partial class TagDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.9");
