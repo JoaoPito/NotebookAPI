@@ -12,7 +12,9 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("WebApiDatabase");
 builder.Services.AddDbContext<NoteContext>(opts =>
-    opts.UseSqlite(connectionString));
+    opts
+    .UseLazyLoadingProxies()
+    .UseSqlite(connectionString));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

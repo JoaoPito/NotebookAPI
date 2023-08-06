@@ -7,6 +7,7 @@ public class NoteContext : DbContext
 {
     public DbSet<Note> Notes { get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<NoteTag> NoteTags { get; set; }
 
     public NoteContext(DbContextOptions opts) : base(opts)
     {
@@ -15,15 +16,17 @@ public class NoteContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        builder.Entity<Note>()
-            .HasMany(note => note.Tags)
-            .WithMany(tag => tag.Notes)
-            .UsingEntity<NoteTag>(
-                ntTag => ntTag.HasOne<Tag>(nt => nt.Tag)
-                              .WithMany(t => t.NoteTags).HasForeignKey(nt => nt.TagId),
-                ntNote => ntNote.HasOne<Note>(nt => nt.Note)
-                                .WithMany(n => n.NoteTags).HasForeignKey(nt => nt.NoteId)
-            );
+        builder.Entity<NoteTag>().HasKey(noteTag => new { noteTag.NoteId, noteTag.TagId });
+
+        builder.Entity<NoteTag>()
+                .HasOne(noteTag => noteTag.Note)
+                .WithMany(note => note.NoteTags)
+                .HasForeignKey(noteTag => noteTag.NoteId);
+
+        builder.Entity<NoteTag>()
+                .HasOne(noteTag => noteTag.Tag)
+                .WithMany(tag => tag.NoteTags)
+                .HasForeignKey(noteTag => noteTag.TagId);
     }
 
     

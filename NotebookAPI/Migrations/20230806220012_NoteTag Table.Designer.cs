@@ -11,8 +11,8 @@ using NotebookAPI.Data;
 namespace NotebookAPI.Migrations
 {
     [DbContext(typeof(NoteContext))]
-    [Migration("20230802003132_Note-Tag Relationship")]
-    partial class NoteTagRelationship
+    [Migration("20230806220012_NoteTag Table")]
+    partial class NoteTagTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,17 +44,17 @@ namespace NotebookAPI.Migrations
 
             modelBuilder.Entity("NotebookAPI.Models.NoteTag", b =>
                 {
-                    b.Property<int>("NoteId")
+                    b.Property<int?>("NoteId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TagId")
+                    b.Property<int?>("TagId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("NoteId", "TagId");
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("NoteTag");
+                    b.ToTable("NoteTags");
                 });
 
             modelBuilder.Entity("NotebookAPI.Models.Tag", b =>
@@ -69,7 +69,7 @@ namespace NotebookAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("NotebookAPI.Models.NoteTag", b =>

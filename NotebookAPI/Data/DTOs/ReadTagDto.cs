@@ -1,11 +1,10 @@
 using NotebookAPI.Models;
 
-namespace NotebookAPI.Data.DTOs
+namespace NotebookAPI.Data.DTOs;
+
+public class ReadTagDto
 {
-    public class ReadTagDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public List<Note> Notes { get; set; }
-    }
+    public int Id { get; set; }
+    public string Name { get; set; } = "";
+    public ICollection<ReadNoteTagDto> NoteTags { get; set; }
 }

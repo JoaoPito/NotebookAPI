@@ -41,17 +41,17 @@ namespace NotebookAPI.Migrations
 
             modelBuilder.Entity("NotebookAPI.Models.NoteTag", b =>
                 {
-                    b.Property<int>("NoteId")
+                    b.Property<int?>("NoteId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("TagId")
+                    b.Property<int?>("TagId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("NoteId", "TagId");
 
                     b.HasIndex("TagId");
 
-                    b.ToTable("NoteTag");
+                    b.ToTable("NoteTags");
                 });
 
             modelBuilder.Entity("NotebookAPI.Models.Tag", b =>

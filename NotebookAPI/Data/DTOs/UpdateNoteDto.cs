@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using NotebookAPI.Models;
 
 namespace NotebookAPI.Data.DTOs
 {

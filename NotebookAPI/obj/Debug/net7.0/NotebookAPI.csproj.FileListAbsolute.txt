@@ -75,3 +75,5 @@
 /home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Newtonsoft.Json.dll
 /home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Newtonsoft.Json.Bson.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Castle.Core.dll
+/home/joaopito/Projetos/2023/NotebookAPI/NotebookAPI/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Proxies.dll

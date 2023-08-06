@@ -11,8 +11,8 @@ using NotebookAPI.Data;
 namespace NotebookAPI.Migrations
 {
     [DbContext(typeof(NoteContext))]
-    [Migration("20230802004500_Tag DB")]
-    partial class TagDB
+    [Migration("20230806211846_Added Tag")]
+    partial class AddedTag
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,21 +42,6 @@ namespace NotebookAPI.Migrations
                     b.ToTable("Notes");
                 });
 
-            modelBuilder.Entity("NotebookAPI.Models.NoteTag", b =>
-                {
-                    b.Property<int>("NoteId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("NoteId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("NoteTag");
-                });
-
             modelBuilder.Entity("NotebookAPI.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
@@ -70,35 +55,6 @@ namespace NotebookAPI.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("NotebookAPI.Models.NoteTag", b =>
-                {
-                    b.HasOne("NotebookAPI.Models.Note", "Note")
-                        .WithMany("NoteTags")
-                        .HasForeignKey("NoteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("NotebookAPI.Models.Tag", "Tag")
-                        .WithMany("NoteTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Note");
-
-                    b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("NotebookAPI.Models.Note", b =>
-                {
-                    b.Navigation("NoteTags");
-                });
-
-            modelBuilder.Entity("NotebookAPI.Models.Tag", b =>
-                {
-                    b.Navigation("NoteTags");
                 });
 #pragma warning restore 612, 618
         }

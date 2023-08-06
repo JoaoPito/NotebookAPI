@@ -7,6 +7,6 @@ namespace NotebookAPI.Data.DTOs
 {
     public class UpdateTagDto
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = "";
     }
 }

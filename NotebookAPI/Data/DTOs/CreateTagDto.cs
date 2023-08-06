@@ -4,7 +4,7 @@ namespace NotebookAPI.Data.DTOs
 {
     public class CreateTagDto
     {
-        [Required]
-        public string Name { get; set; }
+        [Required(ErrorMessage = "A name for the tag is required")]
+        public string Name { get; set; } = "";
     }
 }

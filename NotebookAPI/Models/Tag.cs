@@ -8,7 +8,6 @@ public class Tag
     [Key]
     public int Id { get; set; }
     [Required]
-    public string Name { get; set; }
-    public List<Note> Notes { get; set; }
-    public List<NoteTag> NoteTags { get; set; }
+    public string Name { get; set; } = "";
+    public virtual ICollection<NoteTag> NoteTags { get; set; }
 }

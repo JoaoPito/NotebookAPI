@@ -5,26 +5,13 @@
 namespace NotebookAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class NoteTagRelationship : Migration
+    public partial class NoteTagTable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Tag",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tag", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "NoteTag",
+                name: "NoteTags",
                 columns: table => new
                 {
                     NoteId = table.Column<int>(type: "INTEGER", nullable: false),
@@ -32,24 +19,24 @@ namespace NotebookAPI.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_NoteTag", x => new { x.NoteId, x.TagId });
+                    table.PrimaryKey("PK_NoteTags", x => new { x.NoteId, x.TagId });
                     table.ForeignKey(
-                        name: "FK_NoteTag_Notes_NoteId",
+                        name: "FK_NoteTags_Notes_NoteId",
                         column: x => x.NoteId,
                         principalTable: "Notes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_NoteTag_Tag_TagId",
+                        name: "FK_NoteTags_Tags_TagId",
                         column: x => x.TagId,
-                        principalTable: "Tag",
+                        principalTable: "Tags",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_NoteTag_TagId",
-                table: "NoteTag",
+                name: "IX_NoteTags_TagId",
+                table: "NoteTags",
                 column: "TagId");
         }
 
@@ -57,10 +44,7 @@ namespace NotebookAPI.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "NoteTag");
-
-            migrationBuilder.DropTable(
-                name: "Tag");
+                name: "NoteTags");
         }
     }
 }

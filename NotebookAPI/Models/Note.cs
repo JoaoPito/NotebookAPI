@@ -13,6 +13,5 @@ public class Note
     public DateTime LastModified { get; set; }
     [Required]
     public string? Directory { get; set; }
-    public List<Tag> Tags { get; set; }
-    public List<NoteTag> NoteTags { get; set; }
+    public virtual ICollection<NoteTag> NoteTags { get; set; }
 }
