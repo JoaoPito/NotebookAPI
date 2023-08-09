@@ -31,9 +31,17 @@ public class NoteController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<ReadNoteDto> GetNotes([FromQuery] int page=0, [FromQuery] int step=25)
+    public IEnumerable<ReadNoteDto> GetNotes([FromQuery] int page=0, [FromQuery] int step=25,
+                                            [FromQuery] string searchTerm="",
+                                            [FromQuery] int? withTag = null)
     {
-        var notesList = _context.Notes.Skip(page * step).Take(step).ToList();
+        var notesList = _context.Notes
+            .Where(n => n.Title.Contains(searchTerm) 
+                && (withTag == null || _context.NoteTags.Contains(new NoteTag{NoteId=n.Id, TagId=withTag})))
+            .Skip(page * step)
+            .Take(step)
+            .ToList();
+
         var notesListDto = _mapper.Map<List<ReadNoteDto>>(notesList);
         return notesListDto;
     }
