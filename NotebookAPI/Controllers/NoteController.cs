@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NotebookAPI.Data;
 using NotebookAPI.Data.DTOs;
 using NotebookAPI.Models;
@@ -31,27 +32,32 @@ public class NoteController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<ReadNoteDto> GetNotes([FromQuery] int page=0, [FromQuery] int step=25,
+    public async Task<IEnumerable<ReadNoteDto>> GetNotes([FromQuery] int page=0, [FromQuery] int step=25,
                                             [FromQuery] string searchTerm="",
                                             [FromQuery] int? withTag = null)
     {
-        var notesList = _context.Notes
-            .Where(n => n.Title.Contains(searchTerm) 
+        var notesList = await _context.Notes
+            .Where(n => 
+                n.Title.Contains(searchTerm) 
                 && (withTag == null || _context.NoteTags.Contains(new NoteTag{NoteId=n.Id, TagId=withTag})))
             .Skip(page * step)
             .Take(step)
-            .ToList();
+            .OrderBy(n => n.Ranking)
+            .ToListAsync();
 
         var notesListDto = _mapper.Map<List<ReadNoteDto>>(notesList);
         return notesListDto;
     }
 
     [HttpGet("{id}")]
-    public IActionResult GetNote(int id)
+    public async Task<IActionResult> GetNote(int id)
     {
         var note = _context.Notes.FirstOrDefault(note => note.Id == id);
         if (note == null)
             return NotFound();
+
+        note.Ranking++;
+        await _context.SaveChangesAsync();
 
         var noteDto = _mapper.Map<ReadNoteDto>(note);
         return Ok(noteDto);
@@ -83,7 +89,7 @@ public class NoteController : ControllerBase
     }
 
     [HttpPatch("{id}")]
-        public IActionResult UpdateTagField(int id, [FromBody]JsonPatchDocument<UpdateNoteDto> patch)
+        public async Task<IActionResult> UpdateTagField(int id, [FromBody]JsonPatchDocument<UpdateNoteDto> patch)
         {
             var note = _context.Notes.FirstOrDefault(n => n.Id == id);
             if(note == null) return NotFound();
@@ -96,7 +102,7 @@ public class NoteController : ControllerBase
 
             _mapper.Map(noteDto, note);
             note.LastModified = DateTime.Now;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 }

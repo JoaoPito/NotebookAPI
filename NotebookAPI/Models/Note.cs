@@ -8,10 +8,12 @@ public class Note
     [Key]
     public int Id { get; set; }
     [Required]
-    public string? Title { get; set; }
+    public string Title { get; set; } = "";
     [Required]
     public DateTime LastModified { get; set; }
     [Required]
     public string? Directory { get; set; }
-    public virtual ICollection<NoteTag> NoteTags { get; set; }
+    public int Ranking { get; set; } = 0;
+    public virtual ICollection<NoteTag>? NoteTags { get; set; }
+    
 }
