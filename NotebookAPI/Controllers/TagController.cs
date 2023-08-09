@@ -21,16 +21,17 @@ namespace NotebookAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllTags()
+        public async Task<IActionResult> GetAllTags()
         {
-            var tagsListDto = _mapper.Map<List<ReadTagDto>>(_context.Tags.ToList());
+            var tagsList = await _context.Tags.ToListAsync();
+            var tagsListDto = _mapper.Map<List<ReadTagDto>>(tagsList);
             return Ok(tagsListDto);
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetTag(int id)
+        public async Task<IActionResult> GetTag(int id)
         {
-            var tag = _context.Tags.FirstOrDefault(tag => tag.Id == id);
+            var tag = await _context.Tags.FirstOrDefaultAsync(tag => tag.Id == id);
             if(tag == null) return NotFound();
 
             var tagDto = _mapper.Map<ReadTagDto>(tag);
@@ -39,29 +40,29 @@ namespace NotebookAPI.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateTag([FromBody] CreateTagDto tagDto)
+        public async Task<IActionResult> CreateTag([FromBody] CreateTagDto tagDto)
         {
             var tag = _mapper.Map<Tag>(tagDto);
-            _context.Tags.Add(tag);
-            _context.SaveChanges();
+            await _context.Tags.AddAsync(tag);
+            await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetTag), new { Id = tag.Id }, tag);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateTag(int id, [FromBody] UpdateTagDto tagDto) 
+        public async Task<IActionResult> UpdateTag(int id, [FromBody] UpdateTagDto tagDto) 
         {
-            var tag = _context.Tags.FirstOrDefault(tag => tag.Id == id);
+            var tag = await _context.Tags.FirstOrDefaultAsync(tag => tag.Id == id);
             if(tag == null) return NotFound();
 
             _mapper.Map(tagDto, tag);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpPatch("{id}")]
-        public IActionResult UpdateTagField(int id, [FromBody]JsonPatchDocument<UpdateTagDto> patch)
+        public async Task<IActionResult> UpdateTagField(int id, [FromBody]JsonPatchDocument<UpdateTagDto> patch)
         {
-            var tag = _context.Tags.FirstOrDefault(t => t.Id == id);
+            var tag = await _context.Tags.FirstOrDefaultAsync(t => t.Id == id);
             if(tag == null) return NotFound();
 
             var tagDto = _mapper.Map<UpdateTagDto>(tag);
@@ -71,19 +72,19 @@ namespace NotebookAPI.Controllers
                 return ValidationProblem(ModelState);
 
             _mapper.Map(tagDto, tag);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteTag(int id)
+        public async Task<IActionResult> DeleteTag(int id)
         {
-            var tag = _context.Tags.FirstOrDefault(t => t.Id == id);
+            var tag = await _context.Tags.FirstOrDefaultAsync(t => t.Id == id);
             if(tag == null)
                 return NotFound();
 
             _context.Tags.Remove(tag);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }

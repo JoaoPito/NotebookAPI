@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NotebookAPI.Data;
 using NotebookAPI.Data.DTOs;
 using NotebookAPI.Models;
@@ -30,16 +31,17 @@ public class NoteTagController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult GetAllNoteTags()
+    public async Task<IActionResult> GetAllNoteTags()
     {
-        var noteTagsDto = _mapper.Map<List<ReadNoteTagDto>>(_context.NoteTags.ToList());
+        var noteTags = await _context.NoteTags.ToListAsync();
+        var noteTagsDto = _mapper.Map<List<ReadNoteTagDto>>(noteTags);
         return Ok(noteTagsDto);
     }
 
     [HttpGet("{noteId}/{tagId}")]
-    public IActionResult GetNoteTagById(int noteId, int tagId)
+    public async Task<IActionResult> GetNoteTagById(int noteId, int tagId)
     {
-        var noteTag = _context.NoteTags.FirstOrDefault(nt => (nt.NoteId == noteId) && (nt.TagId == tagId));
+        var noteTag = await _context.NoteTags.FirstOrDefaultAsync(nt => (nt.NoteId == noteId) && (nt.TagId == tagId));
         if(noteTag == null) return NotFound();
 
         var noteTagDto = _mapper.Map<ReadNoteTagDto>(noteTag);
@@ -48,21 +50,21 @@ public class NoteTagController : ControllerBase
     }
 
     [HttpPut("{noteId}/{tagId}")]
-    public IActionResult UpdateNoteTag(int noteId, int tagId, [FromBody] UpdateNoteTagDto noteTagDto)
+    public async Task<IActionResult> UpdateNoteTag(int noteId, int tagId, [FromBody] UpdateNoteTagDto noteTagDto)
     {
-        var noteTag = _context.NoteTags.FirstOrDefault(nt => nt.NoteId == noteId && nt.TagId == tagId);
+        var noteTag = await _context.NoteTags.FirstOrDefaultAsync(nt => nt.NoteId == noteId && nt.TagId == tagId);
         if(noteTag == null) return NotFound();
 
         _mapper.Map(noteTagDto, noteTag);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return NoContent();
     }
 
     [HttpPatch("{noteId}/{tagId}")]
-    public IActionResult UpdateNoteTagField(int noteId, int tagId, [FromBody] JsonPatchDocument patch)
+    public async Task<IActionResult> UpdateNoteTagField(int noteId, int tagId, [FromBody] JsonPatchDocument patch)
     {
-        var oldNoteTag = _context.NoteTags.FirstOrDefault(nt => nt.NoteId == noteId && nt.TagId == tagId);
+        var oldNoteTag = await _context.NoteTags.FirstOrDefaultAsync(nt => nt.NoteId == noteId && nt.TagId == tagId);
         if(oldNoteTag == null) return NotFound();
 
         var newNoteTagDto = _mapper.Map<UpdateNoteTagDto>(oldNoteTag);
@@ -76,21 +78,21 @@ public class NoteTagController : ControllerBase
         _context.Remove(oldNoteTag);
 
         if(!_context.NoteTags.Contains(newNoteTag))
-            _context.Add(newNoteTag);
+            await _context.AddAsync(newNoteTag);
 
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return NoContent();
     }
 
     [HttpDelete("{noteId}/{tagId}")]
-    public IActionResult DeleteNoteTag(int noteId, int tagId)
+    public async Task<IActionResult> DeleteNoteTag(int noteId, int tagId)
     {
-        var noteTag = _context.NoteTags.FirstOrDefault(nt => nt.NoteId == noteId && nt.TagId == tagId);
+        var noteTag = await _context.NoteTags.FirstOrDefaultAsync(nt => nt.NoteId == noteId && nt.TagId == tagId);
         if(noteTag == null) return NotFound();
 
         _context.NoteTags.Remove(noteTag);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
 
         return NoContent();
     }

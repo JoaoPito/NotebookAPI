@@ -26,7 +26,7 @@ public class NoteController : ControllerBase
     {
         var note = _mapper.Map<Note>(noteDto);
         note.LastModified = DateTime.Now;
-        _context.Notes.Add(note);
+        await _context.Notes.AddAsync(note);
         await _context.SaveChangesAsync();
         return CreatedAtAction(nameof(GetNote), new { Id = note.Id }, note);
     }
