@@ -7,7 +7,7 @@ I made this tool mainly to centralize all my notes, since they were all scattere
 
 ## Features
 It can store information about my notes, such as **tags**, **where it is located**, **last modified date** in an integrated SQLite database.
-In the future, it will have a fuzzy finder **search tool**, and can **filter** notes by tag, still to be implemented.
+It also has a **search tool**, and can **filter** notes by tag.
 
 This API was made using ASP.NET and EF Core in C#. It can run on Windows, Linux or macOS, but has only been tested and developed in Linux.
 
@@ -30,5 +30,5 @@ Be sure that the binaries have the necessary system permissions to host a HTTP s
 
 ## To do
 - [x] ~~Implement CRUD for notes and tags~~
-- [ ] Paging, search and filtering for notes
+- [x] ~~Paging, search and filtering for notes~~
 - [ ] Error handling
