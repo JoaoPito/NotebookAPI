@@ -11,6 +11,7 @@ public class NoteTagProfile : Profile
         CreateMap<CreateNoteTagDto, NoteTag>();
         CreateMap<NoteTag, ReadNoteTagDto>();
         CreateMap<UpdateNoteTagDto, NoteTag>();
+        CreateMap<NoteTag, UpdateNoteTagDto>();
     }
     
 }

@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using NotebookAPI.Data;
 using NotebookAPI.Data.DTOs;
@@ -30,9 +31,10 @@ public class NoteController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<ReadNoteDto> GetNotes()
+    public IEnumerable<ReadNoteDto> GetNotes([FromQuery] int page=0, [FromQuery] int step=25)
     {
-        var notesListDto = _mapper.Map<List<ReadNoteDto>>(_context.Notes.ToList());
+        var notesList = _context.Notes.Skip(page * step).Take(step).ToList();
+        var notesListDto = _mapper.Map<List<ReadNoteDto>>(notesList);
         return notesListDto;
     }
 
@@ -71,4 +73,22 @@ public class NoteController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPatch("{id}")]
+        public IActionResult UpdateTagField(int id, [FromBody]JsonPatchDocument<UpdateNoteDto> patch)
+        {
+            var note = _context.Notes.FirstOrDefault(n => n.Id == id);
+            if(note == null) return NotFound();
+
+            var noteDto = _mapper.Map<UpdateNoteDto>(note);
+            patch.ApplyTo(noteDto, ModelState);
+
+            if(!TryValidateModel(noteDto))
+                return ValidationProblem(ModelState);
+
+            _mapper.Map(noteDto, note);
+            note.LastModified = DateTime.Now;
+            _context.SaveChanges();
+            return NoContent();
+        }
 }

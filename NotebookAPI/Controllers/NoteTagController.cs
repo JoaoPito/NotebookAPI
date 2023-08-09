@@ -62,16 +62,22 @@ public class NoteTagController : ControllerBase
     [HttpPatch("{noteId}/{tagId}")]
     public IActionResult UpdateNoteTagField(int noteId, int tagId, [FromBody] JsonPatchDocument patch)
     {
-        var noteTag = _context.NoteTags.FirstOrDefault(nt => nt.NoteId == noteId && nt.TagId == tagId);
-        if(noteTag == null) return NotFound();
+        var oldNoteTag = _context.NoteTags.FirstOrDefault(nt => nt.NoteId == noteId && nt.TagId == tagId);
+        if(oldNoteTag == null) return NotFound();
 
-        var noteTagDto = _mapper.Map<UpdateNoteTagDto>(noteTag);
-        patch.ApplyTo(noteTagDto);
+        var newNoteTagDto = _mapper.Map<UpdateNoteTagDto>(oldNoteTag);
+        patch.ApplyTo(newNoteTagDto);
 
-        if(!TryValidateModel(noteTagDto))
+        if(!TryValidateModel(newNoteTagDto))
             return ValidationProblem(ModelState);
 
-        _mapper.Map(noteTagDto, noteTag);
+        var newNoteTag = _mapper.Map<NoteTag>(newNoteTagDto);
+
+        _context.Remove(oldNoteTag);
+
+        if(!_context.NoteTags.Contains(newNoteTag))
+            _context.Add(newNoteTag);
+
         _context.SaveChanges();
 
         return NoContent();
