@@ -42,7 +42,7 @@ public class NoteController : ControllerBase
                 && (withTag == null || _context.NoteTags.Contains(new NoteTag{NoteId=n.Id, TagId=withTag})))
             .Skip(page * step)
             .Take(step)
-            .OrderBy(n => n.Ranking)
+            .OrderByDescending(n => n.Ranking)
             .ToListAsync();
 
         var notesListDto = _mapper.Map<List<ReadNoteDto>>(notesList);
